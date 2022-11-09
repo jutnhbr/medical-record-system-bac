@@ -26,6 +26,8 @@ const adminSchema = new mongoose.Schema({
     hash: String,
     salt: String,
     admin: Boolean
+},{
+    versionKey: false //Version key not needed for this project.
 });
 
 
