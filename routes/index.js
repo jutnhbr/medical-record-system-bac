@@ -6,7 +6,7 @@ const User = connection.models.User;
 const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
 const Patient = connection.models.Patient;
-
+const Doctor = connection.models.Doctor;
 /**
  * -------------- Helper Functions ----------------
  *
@@ -64,6 +64,36 @@ let createPatient = (req, res, next) => {
             res.redirect('/login');
         }
     })};
+let createDoctor = (req, res, next) => {
+    User.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newUser = new Doctor({
+                username: req.body.uname,
+                hash: hash,
+                salt: salt,
+                doctor: true,
+                patients: ["pat","pat2"],
+
+            });
+
+            newUser.save()
+                .then((user) => {
+                    console.log(user);
+                });
+
+            res.redirect('/login');
+        }
+    })};
+
 
 
 /*let createPatient = (req, res, next) => {
@@ -100,7 +130,11 @@ router.post('/register/*', isAdmin, async (req, res, next) => {
         createAdmin(req, res, next);
     } else if (type === "patient") {
         createPatient(req, res, next);
-    } else {
+    }
+    else if (type === "doctor") {
+        createDoctor(req, res, next);
+    }
+        else {
         res.status(400).send('Bad Request');
     }
 
