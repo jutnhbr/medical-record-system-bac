@@ -5,8 +5,10 @@ const connection = require('../config/database');
 const User = connection.models.User;
 const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
+const isAuthorized = require('./authMiddleware').isAuthorized;
 const Patient = connection.models.Patient;
 const Doctor = connection.models.Doctor;
+
 /**
  * -------------- Helper Functions ----------------
  *
@@ -25,6 +27,7 @@ let createAdmin = (req, res, next) =>{
 
             const newAdmin = new User({
                 username: req.body.uname,
+                name: req.body.uname,
                 hash: hash,
                 salt: salt,
                 admin: true
@@ -49,6 +52,7 @@ let createPatient = (req, res, next) => {
 
             const newUser = new Patient({
                 username: req.body.uname,
+                name: req.body.uname,
                 hash: hash,
                 salt: salt,
                 patient: true,
@@ -78,6 +82,7 @@ let createDoctor = (req, res, next) => {
 
             const newUser = new Doctor({
                 username: req.body.uname,
+                name: "Johnny Sins",
                 hash: hash,
                 salt: salt,
                 doctor: true,
@@ -143,16 +148,17 @@ router.post('/register/*', isAdmin, async (req, res, next) => {
 
 
 
+
  /**
  * -------------- GET ROUTES ----------------
  */
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>');
 });
 
 // When you visit http://localhost:3000/login, you will see "Login Page"
-router.get('/login',(req, res, next) => {
+router.get('/login',(req, res) => {
    
     const form = '<h1>Login Page</h1><form method="POST" action="/login">\
     Enter Username:<br><input type="text" name="uname">\
@@ -163,8 +169,10 @@ router.get('/login',(req, res, next) => {
 
 });
 
+
+
 // When you visit http://localhost:3000/register, you will see "Register Page"
-router.get('/register/*', isAdmin,async (req, res, next) => {
+router.get('/register/*', isAdmin,async (req, res) => {
     let type = req.url.toString().replace("/register/", "")
     const form =
         '<h1>Register Page ' + type.toString() + '</h1>' + '<form method="post" action="/register/'+type.toString()+'"'+'>\
@@ -176,14 +184,22 @@ router.get('/register/*', isAdmin,async (req, res, next) => {
 
 });
 // When you visit http://localhost:3000/register, you will see "Register Page"
-router.get('/register/patient', (req, res, next) => {
 
-    const form = '<h1>Register Patient</h1><form method="post" action="patient">\
-                    Enter Username:<br><input type="text" name="uname">\
-                    <br>Enter Password:<br><input type="password" name="pw">\
-                    <br><br><input type="submit" value="Submit"></form>';
 
-    res.send(form);
+
+router.get('/patient/sins', isAuth, (req, res) => {
+    res.redirect("/patient/636d345a25f1dc18f878c491");
+});
+router.get('/patient/house', isAuth, (req, res) => {
+    res.redirect("/patient/636d3eca7d1e61766ec2bcbe");
+});
+
+router.get('/patient/*', isAuthorized,(req, res) => {
+    let id = req.url.toString().replace("/patient/", "")
+    Patient.findOne({ _id: id }, function (err, patient) {
+        if (err) return (err);
+        res.send(patient);
+    });
 
 });
 
@@ -193,25 +209,25 @@ router.get('/register/patient', (req, res, next) => {
  * 
  * Also, look up what behaviour express session has without a maxage set
  */
-router.get('/protected-route', isAuth, (req, res, next) => {
+router.get('/protected-route', isAuth, (req, res) => {
     res.send('You made it to the route.');
 });
 
-router.get('/admin-route', isAdmin, (req, res, next) => {
+router.get('/admin-route', isAdmin, (req, res) => {
     res.send('You made it to the admin route.');
 });
 
 // Visiting this route logs the user out
-router.get('/logout', (req, res, next) => {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/protected-route');
 });
 
-router.get('/login-success', (req, res, next) => {
+router.get('/login-success', (req, res) => {
     res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
 });
 
-router.get('/login-failure', (req, res, next) => {
+router.get('/login-failure', (req, res) => {
     res.send('You entered the wrong password.');
 });
 
