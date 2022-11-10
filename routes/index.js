@@ -36,6 +36,36 @@ let createAdmin = (req, res, next) =>{
     });
 }
 let createPatient = (req, res, next) => {
+    User.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newUser = new Patient({
+                username: req.body.uname,
+                hash: hash,
+                salt: salt,
+                patient: true,
+                roomNR:205,
+            });
+
+            newUser.save()
+                .then((user) => {
+                    console.log(user);
+                });
+
+            res.redirect('/login');
+        }
+    })};
+
+
+/*let createPatient = (req, res, next) => {
     const saltHash = genPassword(req.body.pw);
 
     const salt = saltHash.salt;
@@ -55,7 +85,7 @@ let createPatient = (req, res, next) => {
         });
 
     res.redirect('/login');
-};
+};*/
 /**
  * -------------- POST ROUTES ----------------
  */
