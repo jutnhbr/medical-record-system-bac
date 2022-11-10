@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
-var passport = require('passport');
-var routes = require('./routes');
+let passport = require('passport');
+let routes = require('./routes');
 const connection = require('./config/database');
 
 // Package documentation - https://www.npmjs.com/package/connect-mongo
@@ -15,7 +15,7 @@ const MongoStore = require('connect-mongo')(session);
 require('dotenv').config();
 
 // Create the Express application
-var app = express();
+let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

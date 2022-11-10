@@ -41,7 +41,7 @@ let createAdmin = (req, res, next) =>{
 
  router.post('/register/*', isAdmin, async (req, res, next) => {
      let type = await req.url.toString().replace("/register/", "")
-     console.log(type);
+
      if (type === "admin") {
          createAdmin(req, res, next);
      } else {
@@ -72,21 +72,22 @@ router.get('/login', (req, res, next) => {
 });
 
 // When you visit http://localhost:3000/register, you will see "Register Page"
-router.get('/register',isAdmin, (req, res, next) => {
-
-    const form = '<h1>Register Page</h1><form method="post" action="register/admin">\
+router.get('/register/*',isAdmin, async (req, res, next) => {
+    let type = req.url.toString().replace("/register/", "")
+    const form =
+        '<h1>Register Page ' + type.toString() + '</h1>' + '<form method="post" action="/register/'+type.toString()+'"'+'>\
                     Enter Username:<br><input type="text" name="uname">\
                     <br>Enter Password:<br><input type="password" name="pw">\
                     <br><br><input type="submit" value="Submit"></form>';
-
+    console.log(form);
     res.send(form);
-    
+
 });
 
 /**
  * Lookup how to authenticate users on routes with Local Strategy
  * Google Search: "How to use Express Passport Local Strategy"
- * 
+ *
  * Also, look up what behaviour express session has without a maxage set
  */
 router.get('/protected-route', isAuth, (req, res, next) => {
