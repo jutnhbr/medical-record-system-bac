@@ -21,17 +21,16 @@ const connection = mongoose.createConnection(conn, {
 });
 
 // Creates simple schema for a User.  The hash and salt are derived from the user's given password when they register
-const adminSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: String,
     hash: String,
-    salt: String,
-    admin: Boolean
+    salt: String
 },{
     versionKey: false //Version key not needed for this project.
 });
 
 
-const Admin = connection.model('Admin', adminSchema);
+const User = connection.model('User', userSchema);
 
 // Expose the connection
 module.exports = connection;

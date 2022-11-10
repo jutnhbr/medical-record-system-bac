@@ -2,7 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
-const Admin= connection.models.Admin;
+const User= connection.models.User;
 const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
 
@@ -18,11 +18,10 @@ const isAdmin = require('./authMiddleware').isAdmin;
     const salt = saltHash.salt;
     const hash = saltHash.hash;
 
-    const newUser = new Admin({
+    const newUser = new User({
         username: req.body.uname,
         hash: hash,
-        salt: salt,
-        admin: true
+        salt: salt
     });
 
     newUser.save()
