@@ -26,7 +26,7 @@ const AdminSchema = new mongoose.Schema({
     hash: String,
     salt: String,
     admin: Boolean
-});
+},{ versionKey: false });
 
 const PatientSchema = new mongoose.Schema({
     username: String,
@@ -35,8 +35,15 @@ const PatientSchema = new mongoose.Schema({
     patient: Boolean,
     roomNR: Number,
     doctor: String,
-});
+},{ versionKey: false });
 
+const DoctorSchema = new mongoose.Schema({
+    username: String,
+    hash: String,
+    salt: String,
+    doctor: Boolean,
+    patients: [String],
+},{ versionKey: false });
 
 /*
 var users = mongoose.model('User', loginUserSchema, 'users');
@@ -45,5 +52,6 @@ var registerUser = mongoose.model('Registered', registerUserSchema, 'users');
 
 const User = connection.model('User', AdminSchema,"users");
 const Patient = connection.model('Patient', PatientSchema,"users");
+const Doctor = connection.model('Doctor', DoctorSchema,"users");
 // Expose the connection
 module.exports = connection;
