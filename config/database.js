@@ -34,7 +34,10 @@ const PatientSchema = new mongoose.Schema({
     salt: String,
     patient: Boolean,
     roomNR: Number,
+    doctor: String,
 });
+
+
 /*
 var users = mongoose.model('User', loginUserSchema, 'users');
 var registerUser = mongoose.model('Registered', registerUserSchema, 'users');

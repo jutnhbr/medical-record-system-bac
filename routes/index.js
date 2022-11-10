@@ -53,6 +53,7 @@ let createPatient = (req, res, next) => {
                 salt: salt,
                 patient: true,
                 roomNR:205,
+                doctor: "Dr. Johnny Sins"
             });
 
             newUser.save()
