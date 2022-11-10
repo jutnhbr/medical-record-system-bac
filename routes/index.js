@@ -2,34 +2,52 @@ const router = require('express').Router();
 const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
-const User= connection.models.User;
+const Admin= connection.models.Admin;
 const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
 
+let createAdmin = (req, res, next) =>{
+    Admin.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newAdmin = new Admin({
+                username: req.body.uname,
+                hash: hash,
+                salt: salt,
+                admin: true
+            });
+
+            newAdmin.save()
+                .then((user) => {
+                    //console.log(user);
+                });
+            res.redirect('/login');
+        }
+    });
+}
 /**
  * -------------- POST ROUTES ----------------
  */
 
  router.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success' }));
 
- router.post('/register', (req, res, next) => {
-    const saltHash = genPassword(req.body.pw);
-    
-    const salt = saltHash.salt;
-    const hash = saltHash.hash;
+ router.post('/register/*', isAdmin, async (req, res, next) => {
+     let type = await req.url.toString().replace("/register/", "")
+     console.log(type);
+     if (type === "admin") {
+         createAdmin(req, res, next);
+     } else {
+         res.status(400).send('Bad Request');
+     }
 
-    const newUser = new User({
-        username: req.body.uname,
-        hash: hash,
-        salt: salt
-    });
-
-    newUser.save()
-        .then((user) => {
-            console.log(user);
-        });
-
-    res.redirect('/login');
  });
 
 
@@ -54,9 +72,9 @@ router.get('/login', (req, res, next) => {
 });
 
 // When you visit http://localhost:3000/register, you will see "Register Page"
-router.get('/register', (req, res, next) => {
+router.get('/register',isAdmin, (req, res, next) => {
 
-    const form = '<h1>Register Page</h1><form method="post" action="register">\
+    const form = '<h1>Register Page</h1><form method="post" action="register/admin">\
                     Enter Username:<br><input type="text" name="uname">\
                     <br>Enter Password:<br><input type="password" name="pw">\
                     <br><br><input type="submit" value="Submit"></form>';

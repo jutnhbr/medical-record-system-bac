@@ -1,7 +1,6 @@
 const express = require('express');
 const session = require('express-session');
 var passport = require('passport');
-var crypto = require('crypto');
 var routes = require('./routes');
 const connection = require('./config/database');
 
@@ -48,11 +47,11 @@ require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     console.log(req.session);
     console.log(req.user);
     next();
-});
+});*/
 
 /**
  * -------------- ROUTES ----------------

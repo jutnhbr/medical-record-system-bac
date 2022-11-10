@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const connection = require('./database');
-const User = connection.models.User;
+const Admin = connection.models.Admin;
 const validPassword = require('../lib/passwordUtils').validPassword;
 
 const customFields = {
@@ -11,7 +11,7 @@ const customFields = {
 
 const verifyCallback = (username, password, done) => {
 
-    User.findOne({ username: username })
+    Admin.findOne({ username: username })
         .then((user) => {
 
             if (!user) { return done(null, false) }
@@ -39,7 +39,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((userId, done) => {
-    User.findById(userId)
+    Admin.findById(userId)
         .then((user) => {
             done(null, user);
         })
