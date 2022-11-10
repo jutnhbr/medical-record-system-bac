@@ -23,6 +23,7 @@ const connection = mongoose.createConnection(conn, {
 // Creates simple schema for a User.  The hash and salt are derived from the user's given password when they register
 const AdminSchema = new mongoose.Schema({
     username: String,
+    name: String,
     hash: String,
     salt: String,
     admin: Boolean
@@ -30,6 +31,7 @@ const AdminSchema = new mongoose.Schema({
 
 const PatientSchema = new mongoose.Schema({
     username: String,
+    name: String,
     hash: String,
     salt: String,
     patient: Boolean,
@@ -39,10 +41,12 @@ const PatientSchema = new mongoose.Schema({
 
 const DoctorSchema = new mongoose.Schema({
     username: String,
+    name: String,
     hash: String,
     salt: String,
     doctor: Boolean,
     patients: [String],
+
 },{ versionKey: false });
 
 /*
