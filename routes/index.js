@@ -1,11 +1,234 @@
-// Init
+const router = require('express').Router();
+const passport = require('passport');
+const genPassword = require('../lib/passwordUtils').genPassword;
+const connection = require('../config/database');
+const User = connection.models.User;
+const isAuth = require('./authMiddleware').isAuth;
+const isAdmin = require('./authMiddleware').isAdmin;
+const isAuthorized = require('./authMiddleware').isAuthorized;
+const Patient = connection.models.Patient;
+const Doctor = connection.models.Doctor;
 
+/**
+ * -------------- Helper Functions ----------------
+ *
+ */
+let createAdmin = (req, res, next) =>{
+    User.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newAdmin = new User({
+                username: req.body.uname,
+                name: req.body.uname,
+                hash: hash,
+                salt: salt,
+                admin: true
+            });
+
+            newAdmin.save()
+            res.redirect('/login');
+        }
+    });
+}
+let createPatient = (req, res, next) => {
+    User.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newUser = new Patient({
+                username: req.body.uname,
+                name: req.body.uname,
+                hash: hash,
+                salt: salt,
+                patient: true,
+                roomNR:205,
+                doctor: "Dr. Johnny Sins"
+            });
+
+            newUser.save()
+                .then((user) => {
+                    console.log(user);
+                });
+
+            res.redirect('/login');
+        }
+    })};
+let createDoctor = (req, res, next) => {
+    User.countDocuments({username: req.body.uname}, function (err, count) {
+        if (count > 0) {
+            res.status(409).send('username taken');
+            next("username taken");
+        }
+        else{
+            const saltHash = genPassword(req.body.pw);
+
+            const salt = saltHash.salt;
+            const hash = saltHash.hash;
+
+            const newUser = new Doctor({
+                username: req.body.uname,
+                name: "Johnny Sins",
+                hash: hash,
+                salt: salt,
+                doctor: true,
+                patients: ["pat","pat2"],
+
+            });
+
+            newUser.save()
+                .then((user) => {
+                    console.log(user);
+                });
+
+            res.redirect('/login');
+        }
+    })};
+
+
+
+/*let createPatient = (req, res, next) => {
+    const saltHash = genPassword(req.body.pw);
+
+    const salt = saltHash.salt;
+    const hash = saltHash.hash;
+
+    const newUser = new Patient({
+        username: req.body.uname,
+        hash: hash,
+        salt: salt,
+        patient: true,
+        roomNR:205,
+    });
+
+    newUser.save()
+        .then((user) => {
+            console.log(user);
+        });
+
+    res.redirect('/login');
+};*/
 /**
  * -------------- POST ROUTES ----------------
  */
+
+ router.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success' }));
+
+router.post('/register/*', isAdmin, async (req, res, next) => {
+    let type = await req.url.toString().replace("/register/", "")
+
+    if (type === "admin") {
+        createAdmin(req, res, next);
+    } else if (type === "patient") {
+        createPatient(req, res, next);
+    }
+    else if (type === "doctor") {
+        createDoctor(req, res, next);
+    }
+        else {
+        res.status(400).send('Bad Request');
+    }
+
+});
+
+
+
 
 
  /**
  * -------------- GET ROUTES ----------------
  */
 
+router.get('/', (req, res) => {
+    res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>');
+});
+
+// When you visit http://localhost:3000/login, you will see "Login Page"
+router.get('/login',(req, res) => {
+   
+    const form = '<h1>Login Page</h1><form method="POST" action="/login">\
+    Enter Username:<br><input type="text" name="uname">\
+    <br>Enter Password:<br><input type="password" name="pw">\
+    <br><br><input type="submit" value="Submit"></form>';
+
+    res.send(form);
+
+});
+
+
+
+// When you visit http://localhost:3000/register, you will see "Register Page"
+router.get('/register/*', isAdmin,async (req, res) => {
+    let type = req.url.toString().replace("/register/", "")
+    const form =
+        '<h1>Register Page ' + type.toString() + '</h1>' + '<form method="post" action="/register/'+type.toString()+'"'+'>\
+                    Enter Username:<br><input type="text" name="uname">\
+                    <br>Enter Password:<br><input type="password" name="pw">\
+                    <br><br><input type="submit" value="Submit"></form>';
+    console.log(form);
+    res.send(form);
+
+});
+// When you visit http://localhost:3000/register, you will see "Register Page"
+
+
+
+router.get('/patient/sins', isAuth, (req, res) => {
+    res.redirect("/patient/636d345a25f1dc18f878c491");
+});
+router.get('/patient/house', isAuth, (req, res) => {
+    res.redirect("/patient/636d3eca7d1e61766ec2bcbe");
+});
+
+router.get('/patient/*', isAuthorized,(req, res) => {
+    let id = req.url.toString().replace("/patient/", "")
+    Patient.findOne({ _id: id }, function (err, patient) {
+        if (err) return (err);
+        res.send(patient);
+    });
+
+});
+
+/**
+ * Lookup how to authenticate users on routes with Local Strategy
+ * Google Search: "How to use Express Passport Local Strategy"
+ * 
+ * Also, look up what behaviour express session has without a maxage set
+ */
+router.get('/protected-route', isAuth, (req, res) => {
+    res.send('You made it to the route.');
+});
+
+router.get('/admin-route', isAdmin, (req, res) => {
+    res.send('You made it to the admin route.');
+});
+
+// Visiting this route logs the user out
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/protected-route');
+});
+
+router.get('/login-success', (req, res) => {
+    res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
+});
+
+router.get('/login-failure', (req, res) => {
+    res.send('You entered the wrong password.');
+});
+
+module.exports = router;
