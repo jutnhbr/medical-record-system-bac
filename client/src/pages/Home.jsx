@@ -1,7 +1,11 @@
+import AuthForm from "../components/AuthForm/AuthForm";
+import NavBar from "../components/NavBar/NavBar";
+
 const Home = () => {
     return (
         <div>
-            <h1> Homepage </h1>
+            <NavBar title={"Home"} authenticated={false}/>
+            <AuthForm />
         </div>
     );
 }
