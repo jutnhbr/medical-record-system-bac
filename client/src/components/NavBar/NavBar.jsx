@@ -6,9 +6,23 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const NavBar = () => {
+const NavBar = ({title, authenticated}) => {
+
+
+    const handleLogout = () => {
+        fetch("http://localhost:3001/logout", {
+            method: "POST",
+
+        })
+            .then(() => {
+                sessionStorage.removeItem("auth");
+                window.location.reload();
+            })
+    }
+
+
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="absolute" color={"primary"}>
                 <Toolbar>
                     <IconButton
@@ -16,14 +30,16 @@ const NavBar = () => {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}
+                        sx={{mr: 2}}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        MedEX
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        MedEX {title}
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {authenticated && <Button color="inherit"> Activity </Button>}
+                    {authenticated && <Button color="inherit"> Support </Button>}
+                    <Button color="inherit" onClick={handleLogout}> {authenticated ? "Logout" : "Login"}</Button>
                 </Toolbar>
             </AppBar>
         </Box>
