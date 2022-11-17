@@ -4,10 +4,7 @@ const connection = require('./database');
 const User = connection.models.User;
 const validPassword = require('../lib/passwordUtils').validPassword;
 
-const customFields = {
-    usernameField: 'uname',
-    passwordField: 'pw'
-};
+
 
 const verifyCallback = (username, password, done) => {
 
@@ -30,7 +27,7 @@ const verifyCallback = (username, password, done) => {
 
 }
 
-const strategy  = new LocalStrategy(customFields, verifyCallback);
+const strategy  = new LocalStrategy(verifyCallback);
 
 passport.use(strategy);
 
