@@ -3,6 +3,7 @@ const session = require('express-session');
 let passport = require('passport');
 let routes = require('./routes');
 const connection = require('./config/database');
+const cors = require('cors');
 
 // Package documentation - https://www.npmjs.com/package/connect-mongo
 const MongoStore = require('connect-mongo')(session);
@@ -57,13 +58,20 @@ app.use(passport.session());
  * -------------- ROUTES ----------------
  */
 
-// Imports all of the routes from ./routes/index.js
+// Imports all the routes from ./routes/index.js
 app.use(routes);
 
 
 /**
  * -------------- SERVER ----------------
  */
+
+app.use(cors({
+    origin: "http://localhost:3001",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true
+}));
+
 
 // Server listens on http://localhost:3000
 app.listen(3000);
