@@ -1,0 +1,10 @@
+.mock-panel {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 5px;
+    padding: 10px;
+    width: 1000px;
+    height: 400px;
+}
