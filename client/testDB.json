@@ -1,0 +1,106 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "role": "Patient"
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "role": "Admin"
+    },
+    {
+      "id": 3,
+      "name": "Dr. John Doe",
+      "role": "Doctor"
+    },
+    {
+      "id": 4,
+      "name": "Dr. Jane Doe",
+      "role": "Doctor"
+    },
+    {
+      "id": 5,
+      "name": "Dr. John Smith",
+      "role": "Doctor"
+    },
+    {
+      "id": 6,
+      "name": "Jane Smith",
+      "role": "Patient"
+    },
+    {
+      "id": 7,
+      "name": "John Smith",
+      "role": "Patient"
+    },
+    {
+      "id": 8,
+      "name": "Dr. Jane Smith",
+      "role": "Doctor"
+    }
+  ],
+  "records": [
+    {
+      "id": 1,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Active"
+    },
+    {
+      "id": 2,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Active"
+    },
+    {
+      "id": 3,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Closed"
+    },
+    {
+      "id": 4,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Closed"
+    },
+    {
+      "id": 5,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Closed"
+    },
+    {
+      "id": 6,
+      "patient": "John Doe",
+      "doctor": "Dr. John Doe",
+      "date": "2018-01-01",
+      "notes": "Patient is doing well.",
+      "prescription": "Take 2 pills a day.",
+      "diagnosis": "Healthy",
+      "status": "Closed"
+    }
+  ]
+}
