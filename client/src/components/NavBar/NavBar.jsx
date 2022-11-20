@@ -16,6 +16,7 @@ const NavBar = ({title, authenticated}) => {
         })
             .then(() => {
                 sessionStorage.removeItem("auth");
+                sessionStorage.removeItem("key");
                 window.location.reload();
             })
     }
