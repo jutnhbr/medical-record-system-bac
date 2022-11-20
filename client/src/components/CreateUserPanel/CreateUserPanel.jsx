@@ -16,16 +16,16 @@ const CreateUserPanel = () => {
                         <label>Age</label>
                         <input type="text" placeholder="Enter Age"/>
                         <label>Select Role</label>
-                        <select>
+                        <select defaultValue={"doctor"}>
                             <option value="admin">Admin</option>
                             <option value="patient">Patient</option>
-                            <option selected value="doctor">Doctor</option>
+                            <option value="doctor">Doctor</option>
                         </select>
                         <label>Select corresponding doctor</label>
-                        <select>
+                        <select defaultValue={"doctor"}>
                             <option value="admin">Admin</option>
                             <option value="patient">Patient</option>
-                            <option selected value="doctor">Doctor</option>
+                            <option value="doctor">Doctor</option>
                         </select>
                     </div>
                     <div className="create-user-panel-form-buttons">

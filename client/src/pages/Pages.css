@@ -1,0 +1,11 @@
+.medicalboard-container {
+    display: flex;
+    flex-direction: row;
+    gap: 350px;
+}
+.medicalboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
