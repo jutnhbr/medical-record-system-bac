@@ -10,12 +10,12 @@ let admins = [
 ];
 
 let doctors = [
-    {username:"doctor1", name:"Johny Sins", hash:"password", salt:"salz", admin:true,  patients: ["patient1","patient2"]},
+    {username:"doctor1", name:"Johny Sins", hash:"password", salt:"salz", doctor:true,  patients: ["patient1","patient2"]},
 ];
 
 let patients = [
-    {username:"patient1", name:"Sweetie Fox", hash:"password", salt:"salz", admin:true},
-    {username:"patient2", name:"Van Darkholm", hash:"password", salt:"salz", admin:true}
+    {username:"patient1", name:"Sweetie Fox", hash:"password", salt:"salz", patient:true, roomNR:420, doctor:"doctor1"},
+    {username:"patient2", name:"Van Darkholm", hash:"password", salt:"salz", patient:true, roomNR:69, doctor:"doctor1"}
 ];
 
 
