@@ -4,23 +4,21 @@ import {Navigate} from "react-router-dom";
 import {useFetch} from "../hooks/useFetch";
 import DashboardContainer from "../components/DashboardContainer/DashboardContainer";
 import CircularLoader from "../components/CircularLoader/CircularLoader";
+import {checkSession} from "../util/sessionStorageChecker";
 
 const Dashboard = () => {
 
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+
     const {fetchedData: users, isLoading, errMsg} = useFetch("http://localhost:8000/users");
-    useEffect(() => {
-        const loggedInUser = JSON.parse(sessionStorage.getItem("auth"));
-        console.log(loggedInUser)
-        if (loggedInUser) {
-            setAuthenticated(loggedInUser);
-            setLoading(false);
-        }
-    }, []);
 
     useEffect(() => {
-        if (loading) {
+        setAuthenticated(checkSession("admin"));
+        if(authenticated) {
+            setLoading(false);
+        }
+        if(loading) {
             setTimeout(() => {
                 setLoading(false);
             }, 2000);
@@ -33,8 +31,6 @@ const Dashboard = () => {
         )
     } else {
         if (!authenticated) {
-
-
             return <Navigate replace to="/"/>
         } else {
             return (
