@@ -1,0 +1,36 @@
+.record-item-container {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin: 10px;
+    width: 500px;
+}
+
+.record-item-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.record-item-body {
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+}
+
+.record-item-body-category-header {
+
+}
+
+.record-item-body-details {
+    width: 100%;
+}
+
