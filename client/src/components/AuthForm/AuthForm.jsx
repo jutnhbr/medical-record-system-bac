@@ -30,9 +30,20 @@ const AuthForm = () => {
             }
             else {
                 const user = await res.json()
-                if(user.auth) {
-                    sessionStorage.setItem("auth", JSON.parse(user.auth))
-                    navigate("/dashboard")
+                if(user.authKey) {
+                    sessionStorage.setItem("auth", JSON.parse(user.authKey))
+                    if(user.accessKey === "admin") {
+                        sessionStorage.setItem("key", user.accessKey)
+                        navigate("/dashboard")
+                    } else if(user.accessKey === "doctor") {
+                        sessionStorage.setItem("key", user.accessKey)
+                        navigate("/medicalboard")
+                    } else if(user.accessKey === "patient") {
+                        sessionStorage.setItem("key", user.accessKey)
+                        navigate("/records")
+                    } else {
+                        setError("User not found")
+                    }
                 }
             }
         })

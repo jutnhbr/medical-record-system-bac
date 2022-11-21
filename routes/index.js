@@ -182,13 +182,27 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/login-success', (req, res) => {
-    console.log("login success");
-    res.status(200).json({auth: req.isAuthenticated()});
+    let key = '';
+
+    if(req.user.toObject().admin){
+        key = 'admin'
+    } else if(req.user.toObject().doctor === true){
+        key = 'doctor'
+    } else if(req.user.toObject().patient){
+        key = 'patient'
+    }
+    console.log("> Key: " + key)
+    console.log("> Login success");
+    res.status(200).json(
+        {
+            authKey: req.isAuthenticated(),
+            accessKey: key
+        });
 
 });
 
 router.get('/login-failure', (req, res) => {
-    console.log("login failure");
+    console.log("> Login failure");
     res.status(401).send("Invalid email and password combination.");
 });
 
