@@ -167,6 +167,13 @@ router.get('/patient/*', isAuthorized, (req, res) => {
     });
 
 });
+router.get("/users", isAdmin, (req, res) => {
+    //admin kan alle
+    //patient nur patient und nur sich selbst
+    //doctor nur seine Patient
+    res.send(JSON.stringify(Patient.find()));S
+
+})
 
 /**
  * Lookup how to authenticate users on routes with Local Strategy
