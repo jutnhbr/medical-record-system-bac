@@ -1,6 +1,11 @@
 import "./CreateUserPanel.css";
+import {useState} from "react";
 
 const CreateUserPanel = () => {
+
+    const [selectedRole, setSelectedRole] = useState("doctor");
+
+
     return (
         <div className="create-user-panel">
             <div className="create-user-panel-title">
@@ -16,17 +21,20 @@ const CreateUserPanel = () => {
                         <label>Age</label>
                         <input type="text" placeholder="Enter Age"/>
                         <label>Select Role</label>
-                        <select defaultValue={"doctor"}>
+                        <select onChange={(e) => setSelectedRole(e.target.value)} defaultValue={"doctor"}>
                             <option value="admin">Admin</option>
                             <option value="patient">Patient</option>
                             <option value="doctor">Doctor</option>
                         </select>
                         <label>Select corresponding doctor</label>
-                        <select defaultValue={"doctor"}>
-                            <option value="admin">Admin</option>
-                            <option value="patient">Patient</option>
-                            <option value="doctor">Doctor</option>
-                        </select>
+                        {(selectedRole !== "patient")
+                            ? <select disabled defaultValue={""}></select>
+                            : <select defaultValue={"Doctor1"}>
+                                <option value="Doctor1">Doctor1</option>
+                                <option value="Doctor2">Doctor2</option>
+                                <option value="Doctor3">Doctor3</option>
+                            </select>
+                        }
                     </div>
                     <div className="create-user-panel-form-buttons">
                         <button className={"create-user-panel-form-button"} type="submit">Create User</button>
