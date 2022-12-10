@@ -30,13 +30,19 @@ module.exports.isAuthorized = async (req, res, next) => {
         let user = await req.user.toObject();
 
     }
-    console.log(patient)
-    if (req.isAuthenticated() && (user.doctor) && user.name === patient.doctor) {
+    //TODO: Check if user is authorized to view this patient!!!!!!! (right user/ doctor)
 
+    if (req.isAuthenticated() && user.patient) {
         next();
-    } else if (req.isAuthenticated() && (user.name === patient.name)) {
-        next();
-    } else {
-        res.status(401).json({msg: 'You are not authorized to view this resource.'});
     }
+
+
+    // if (req.isAuthenticated() && (user.doctor) && user.name === patient.doctor) {
+    //
+    //     next();
+    // } else if (req.isAuthenticated() && (user.name === patient.name)) {
+    //     next();
+    // } else {
+    //     res.status(401).json({msg: 'You are not authorized to view this resource.'});
+    // }
 }
