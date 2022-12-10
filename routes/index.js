@@ -167,11 +167,17 @@ router.get('/patient/*', isAuthorized, (req, res) => {
     });
 
 });
-router.get("/users", isAdmin, (req, res) => {
-    //admin kan alle
-    //patient nur patient und nur sich selbst
-    //doctor nur seine Patient
-    res.send(JSON.stringify(Patient.find()));S
+router.get("/users", isAdmin, async (req, res) => {
+    console.log(req.user);
+    let users = await Doctor.find({});
+    users = users.map(user => {
+        let edited_user = user.toObject();
+        delete edited_user.hash;
+        delete edited_user.salt;
+        return edited_user;
+    });
+    res.send((users));
+
 
 })
 
@@ -191,11 +197,11 @@ router.get('/logout', (req, res) => {
 router.get('/login-success', (req, res) => {
     let key = '';
 
-    if(req.user.toObject().admin){
+    if (req.user.type === 'admin') {
         key = 'admin'
-    } else if(req.user.toObject().doctor === true){
+    } else if (req.user.type === 'doctor') {
         key = 'doctor'
-    } else if(req.user.toObject().patient){
+    } else if (req.user.type === 'patient') {
         key = 'patient'
     }
     console.log("> Key: " + key)
@@ -203,14 +209,14 @@ router.get('/login-success', (req, res) => {
     res.status(200).json(
         {
             authKey: req.isAuthenticated(),
-            accessKey: key
+            accessKey: key,
         });
 
 });
 
 router.get('/login-failure', (req, res) => {
     console.log("> Login failure");
-    res.status(401).send("Invalid email and password combination.");
+    res.status(401).send("Invalid username and password combination.");
 });
 
 module.exports = router;
