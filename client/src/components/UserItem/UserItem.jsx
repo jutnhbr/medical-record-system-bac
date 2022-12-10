@@ -9,8 +9,9 @@ const UserItem = ({user, type}) => {
                 <Avatar>H</Avatar>
             </div>
             <div className={"user-info"}>
-                <p className="user-item-name">{user.name}</p>
-                <p className="user-item-role">{"Role: " + user.role}</p>
+                <p className="user-item-name">{user.fullname != null ? user.fullname : user.username}</p>
+                <p className="user-item-role">{"Role: " + user.type}</p>
+                <p>{user.versicherungsnummer != null ? "Nr.: " + user.versicherungsnummer : null }</p>
             </div>
             <div className={"user-item-buttons"}>
                 <div>
