@@ -9,7 +9,7 @@ const UserAdministration = () => {
 
     const [reAuthenticated, setReAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
-    const {fetchedData: users, isLoading, errMsg} = useFetch("http://localhost:8000/users");
+    const {fetchedData: users, isLoading, errMsg} = useFetch("http://localhost:3001/users");
 
     useEffect(() => {
         const auth = JSON.parse(sessionStorage.getItem('auth'));

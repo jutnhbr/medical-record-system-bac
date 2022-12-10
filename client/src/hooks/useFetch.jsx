@@ -12,7 +12,9 @@ export const useFetch = (url) => {
 
         const abortController = new AbortController();
 
-        fetch(url, {signal: abortController.signal})
+        fetch(url, {
+            signal: abortController.signal
+        })
             .then(res => {
                 if (!res.ok) {
                     throw Error("Could not data products from API");
