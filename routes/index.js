@@ -167,11 +167,18 @@ router.get('/patient/*', isAuthorized, (req, res) => {
     });
 
 });
-router.get("/users", isAdmin, (req, res) => {
+router.get("/users", isAdmin, async (req, res) => {
     //admin kan alle
     //patient nur patient und nur sich selbst
     //doctor nur seine Patient
-    res.send(JSON.stringify(Patient.find()));S
+    let users = await Doctor.find({});
+    users = users.map(user => {
+        let juser= user.toObject();
+       delete juser.hash;
+         delete juser.salt;
+        return juser;});
+    res.send((users));
+
 
 })
 
