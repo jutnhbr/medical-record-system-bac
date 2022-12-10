@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div>
             <NavBar title={"Home"} authenticated={false}/>
-            <AuthForm />
+            <AuthForm title={"Login to MedEX"} />
         </div>
     );
 }

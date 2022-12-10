@@ -1,8 +1,8 @@
 import {Avatar, IconButton} from "@mui/material";
 import "./UserItem.css";
-import {Delete} from "@mui/icons-material";
+import {Delete, Update} from "@mui/icons-material";
 
-const UserItem = ({user}) => {
+const UserItem = ({user, type}) => {
     return (
         <div className="user-item">
             <div className={"user-avatar-frame"}>
@@ -15,7 +15,10 @@ const UserItem = ({user}) => {
             <div className={"user-item-buttons"}>
                 <div>
                     <IconButton aria-label="delete">
-                        <Delete/>
+                        {type !== "edit"
+                            ? <Delete/>
+                            : <Update/>
+                        }
                     </IconButton>
                 </div>
             </div>

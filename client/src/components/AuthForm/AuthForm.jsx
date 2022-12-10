@@ -3,7 +3,7 @@ import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const AuthForm = () => {
+const AuthForm = ({title, type}) => {
 
     const navigate = useNavigate();
     const [error, setError] = useState("")
@@ -31,18 +31,25 @@ const AuthForm = () => {
             else {
                 const user = await res.json()
                 if(user.authKey) {
-                    sessionStorage.setItem("auth", JSON.parse(user.authKey))
-                    if(user.accessKey === "admin") {
-                        sessionStorage.setItem("key", user.accessKey)
-                        navigate("/dashboard")
-                    } else if(user.accessKey === "doctor") {
-                        sessionStorage.setItem("key", user.accessKey)
-                        navigate("/medicalboard")
-                    } else if(user.accessKey === "patient") {
-                        sessionStorage.setItem("key", user.accessKey)
-                        navigate("/records")
-                    } else {
-                        setError("User not found")
+                    if(type === "reauth") {
+                        sessionStorage.setItem("auth", JSON.parse(user.authKey))
+                        sessionStorage.setItem("reauth", JSON.parse("true"))
+                        navigate("/dashboard/usrmgmt")
+                    }
+                    else {
+                        sessionStorage.setItem("auth", JSON.parse(user.authKey))
+                        if(user.accessKey === "admin") {
+                            sessionStorage.setItem("key", user.accessKey)
+                            navigate("/dashboard")
+                        } else if(user.accessKey === "doctor") {
+                            sessionStorage.setItem("key", user.accessKey)
+                            navigate("/medicalboard")
+                        } else if(user.accessKey === "patient") {
+                            sessionStorage.setItem("key", user.accessKey)
+                            navigate("/records")
+                        } else {
+                            setError("User not found")
+                        }
                     }
                 }
             }
@@ -58,7 +65,7 @@ const AuthForm = () => {
     return (
         <div className="auth-form">
         <div className="form-container">
-            <h1 className={"login-title"}>Login to MedEX</h1>
+            <h1 className={"login-title"}>{title}</h1>
             {error && <p className={"error-message-login"}>{error}</p>}
 
             <form className="form" onSubmit={handleFormSubmit}>
