@@ -1,0 +1,35 @@
+.update-user-panel-container {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+    margin: 5px;
+    padding: 10px;
+    width: 350px;
+    height: 150px;
+}
+
+.update-user-panel-button {
+    border-radius: 5px;
+    border: none;
+    background: #0971f1;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    max-width: 450px;
+    outline: 0;
+    padding: 15px;
+    margin-top: 10px;
+    transition: background 0.3s;
+    width: 100%;
+    color: white;
+}
+
+.update-user-panel-button:hover {
+    background: rgba(9, 113, 241, 0.67);
+}
