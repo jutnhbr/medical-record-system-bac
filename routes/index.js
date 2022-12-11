@@ -8,7 +8,7 @@ const isAdmin = require('./authMiddleware').isAdmin;
 const isAuthorized = require('./authMiddleware').isAuthorized;
 const Patient = connection.models.Patient;
 const Doctor = connection.models.Doctor;
-
+const log = require('./authMiddleware').log;
 /**
  * -------------- Helper Functions ----------------
  *
@@ -123,14 +123,14 @@ let createDoctor = (req, res, next) => {
  * -------------- POST ROUTES ----------------
  */
 
-router.post('/login', passport.authenticate('local', {
+router.post('/login', log,passport.authenticate('local', {
         failureRedirect: '/login-failure',
         successRedirect: 'login-success',
         passReqToCallback: true
     }
 ));
 
-router.post('/register/*', isAdmin, async (req, res, next) => {
+router.post('/register/*', log,isAdmin, async (req, res, next) => {
     let type = req.url.toString().replace("/register/", "")
 
     if (type === "admin") {
@@ -159,7 +159,7 @@ router.post('/register/*', isAdmin, async (req, res, next) => {
  */
 
 
-router.get('/patient/*', isAuthorized, (req, res) => {
+router.get('/patient/*', log,isAuthorized, (req, res) => {
     let id = req.url.toString().replace("/patient/", "")
     Patient.findOne({_id: id}, function (err, patient) {
         if (err) return (err);
@@ -167,7 +167,7 @@ router.get('/patient/*', isAuthorized, (req, res) => {
     });
 
 });
-router.get("/users", isAdmin, async (req, res) => {
+router.get("/users", log,isAdmin, async (req, res) => {
     console.log(req.user);
     let users = await Doctor.find({});
     users = users.map(user => {
@@ -189,12 +189,12 @@ router.get("/users", isAdmin, async (req, res) => {
  */
 
 // Visiting this route logs the user out
-router.get('/logout', (req, res) => {
+router.get('/logout', log,(req, res) => {
     req.logout();
     res.redirect('/protected-route');
 });
 
-router.get('/login-success', (req, res) => {
+router.get('/login-success', log,(req, res) => {
     let key = '';
 
     if (req.user.type === 'admin') {
@@ -212,9 +212,10 @@ router.get('/login-success', (req, res) => {
             accessKey: key,
         });
 
+
 });
 
-router.get('/login-failure', (req, res) => {
+router.get('/login-failure', log,(req, res) => {
     console.log("> Login failure");
     res.status(401).send("Invalid username and password combination.");
 });
