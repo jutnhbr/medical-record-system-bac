@@ -21,7 +21,6 @@ module.exports.isAdmin = (req, res, next) => {
 module.exports.isAuthorized = async (req, res, next) => {
 
     let user;
-
     let id = req.url.toString().replace("/patient/", "");
     let patient = await Patient.findOne({_id: id}, function (err, patient) {
         if (err) return (err);
@@ -48,6 +47,8 @@ module.exports.isAuthorized = async (req, res, next) => {
     // }
 }
 module.exports.log = async (req, res, next) => {
+    console.log(req)
+
     let date_ob = new Date();
 
 // current date
@@ -69,10 +70,9 @@ module.exports.log = async (req, res, next) => {
 // current seconds
     let seconds = date_ob.getSeconds();
 
-    console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
     let user ="not logged in";
     if (req.user) {
-        let user = await req.user.toObject().username;
+        user = await req.user.toObject().username;
 
     }
 
