@@ -1,0 +1,20 @@
+---------------------------------------------------------------
+username: cooladmin
+date: 2022-12-11 21:45:59
+url: /users
+method: GET
+---------------------------------------------------------------
+username: cooladmin
+date: 2022-12-11 21:49:51
+url: /login
+method: POST
+---------------------------------------------------------------
+username: cooladmin
+date: 2022-12-11 21:49:51
+url: /login-success
+method: GET
+---------------------------------------------------------------
+username: cooladmin
+date: 2022-12-11 21:51:14
+url: /login-success
+method: GET
