@@ -9,3 +9,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.medicalboard-content-text {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
