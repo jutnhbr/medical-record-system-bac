@@ -38,15 +38,17 @@ const AuthForm = ({title, type}) => {
                     }
                     else {
                         sessionStorage.setItem("auth", JSON.parse(user.authKey))
+                        sessionStorage.setItem("user", (user.user))
+                        sessionStorage.setItem("key", user.accessKey)
                         if(user.accessKey === "admin") {
-                            sessionStorage.setItem("key", user.accessKey)
                             navigate("/dashboard")
                         } else if(user.accessKey === "doctor") {
-                            sessionStorage.setItem("key", user.accessKey)
                             navigate("/medicalboard")
                         } else if(user.accessKey === "patient") {
-                            sessionStorage.setItem("key", user.accessKey)
-                            navigate("/records")
+                            navigate({
+                                pathname: "/records",
+                                search: "?record=record" + user.id + ".md",
+                            });
                         } else {
                             setError("User not found")
                         }
