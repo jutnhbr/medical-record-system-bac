@@ -8,6 +8,7 @@
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
     margin: 5px;
     padding: 10px;
+    cursor: pointer;
 }
 
 .user-info {
