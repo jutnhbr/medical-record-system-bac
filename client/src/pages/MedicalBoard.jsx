@@ -1,5 +1,4 @@
 import NavBar from "../components/NavBar/NavBar";
-import RecordList from "../components/RecordList/RecordList";
 import {useFetch} from "../hooks/useFetch";
 import RecordItem from "../components/RecordItem/RecordItem";
 import RecordViewerPanel from "../components/RecordViewerPanel/RecordViewerPanel";
@@ -13,9 +12,10 @@ import UserList from "../components/UserList/UserList";
 const MedicalBoard = () => {
 
     const {fetchedData: users, isLoading, errMsg} = useFetch("http://localhost:3001/mypatients");
-
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [recordid, setRecordid] = useState(null);
+
 
     useEffect(() => {
         setAuthenticated(checkSession("doctor"));
@@ -27,7 +27,7 @@ const MedicalBoard = () => {
                 setLoading(false);
             }, 2000);
         }
-    }, [loading]);
+    }, [loading, authenticated]);
 
     if (loading) {
         return (
@@ -41,10 +41,16 @@ const MedicalBoard = () => {
                 <>
                     <NavBar title={"Patient Overview"} authenticated={authenticated}/>
                     <div className={"medicalboard-container"}>
-                        {users && <UserList users={users}/>}
+                        {users && <UserList callback={setRecordid} users={users}/>}
                         <div className={"medicalboard-content"}>
-                            <RecordViewerPanel/>
-                            <RecordItem/>
+                            {recordid &&
+                                <>
+                                    <RecordViewerPanel/>
+                                    <RecordItem recordid={recordid}/>
+                                </>
+                            }
+                            {!recordid &&
+                                <p className={"medicalboard-content-text"}>Select a patient to view their records</p>}
                         </div>
                     </div>
                 </>

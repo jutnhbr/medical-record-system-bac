@@ -2,9 +2,14 @@ import {Avatar, IconButton} from "@mui/material";
 import "./UserItem.css";
 import {Delete, Update} from "@mui/icons-material";
 
-const UserItem = ({user, type}) => {
+const UserItem = ({user, type, callback}) => {
+
+    const handleClick = () => {
+        callback("record" + user.versicherungsnummer + ".md");
+    }
+
     return (
-        <div className="user-item">
+        <div onClick={handleClick} className="user-item">
             <div className={"user-avatar-frame"}>
                 <Avatar>H</Avatar>
             </div>
