@@ -1,20 +1,24 @@
 ---------------------------------------------------------------
 username: cooladmin
-date: 2022-12-11 21:45:59
+date: 2022-12-14 17:46:10
+from: http://localhost:3001/dashboard
 url: /users
 method: GET
 ---------------------------------------------------------------
 username: cooladmin
-date: 2022-12-11 21:49:51
+date: 2022-12-14 17:46:17
+from: http://localhost:3001/dashboard/reauth
 url: /login
 method: POST
 ---------------------------------------------------------------
 username: cooladmin
-date: 2022-12-11 21:49:51
+date: 2022-12-14 17:46:17
+from: http://localhost:3001/dashboard/reauth
 url: /login-success
 method: GET
 ---------------------------------------------------------------
 username: cooladmin
-date: 2022-12-11 21:51:14
-url: /login-success
+date: 2022-12-14 17:46:17
+from: http://localhost:3001/dashboard/usrmgmt
+url: /users
 method: GET

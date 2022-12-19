@@ -55,7 +55,6 @@ module.exports.isAuthorized = async (req, res, next) => {
     // }
 }
 module.exports.log = async (req, res, next) => {
-    console.log(req)
 
     let date_ob = new Date();
 
@@ -83,10 +82,12 @@ module.exports.log = async (req, res, next) => {
         user = await req.user.toObject().username;
 
     }
-
+    let fromUrlIndex = req["rawHeaders"].indexOf("referer")+1
+    console.log(req["rawHeaders"][fromUrlIndex+1]);
     let log_data = {
         username: user,
         date: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds,
+        from:  req["rawHeaders"][fromUrlIndex],
         url: req.url,
         method: req.method
 
