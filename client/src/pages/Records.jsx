@@ -24,7 +24,7 @@ const Records = () => {
                 setLoading(false);
             }, 2000);
         }
-    }, [loading]);
+    }, [loading, authenticated]);
 
     if (loading) {
         return (

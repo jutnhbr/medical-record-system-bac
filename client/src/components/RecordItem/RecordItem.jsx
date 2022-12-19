@@ -13,7 +13,7 @@ const RecordItem = ({recordid}) => {
                 setRecord({ md })
             }
         )
-    }, [])
+    }, [recordid]);
 
 
     return (
