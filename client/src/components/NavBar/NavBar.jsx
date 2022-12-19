@@ -17,10 +17,11 @@ const NavBar = ({title, authenticated}) => {
             .then(() => {
                 sessionStorage.removeItem("auth");
                 sessionStorage.removeItem("key");
+                sessionStorage.removeItem("user");
+                sessionStorage.removeItem("reauth");
                 window.location.reload();
             })
     }
-
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -36,7 +37,8 @@ const NavBar = ({title, authenticated}) => {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        MedEX {title}
+                        MedEX {title} |
+                        {sessionStorage.getItem("user") ? " Welcome, " + sessionStorage.getItem("user") : ""}
                     </Typography>
                     {authenticated && <Button color="inherit"> Activity </Button>}
                     {authenticated && <Button color="inherit"> Support </Button>}

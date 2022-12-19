@@ -5,10 +5,12 @@ import RecordFooter from "../components/RecordFooter/RecordFooter";
 import {useEffect, useState} from "react";
 import {checkSession} from "../util/sessionStorageChecker";
 import CircularLoader from "../components/CircularLoader/CircularLoader";
-import {Navigate} from "react-router-dom";
+import {Navigate, useSearchParams} from "react-router-dom";
 
 const Records = () => {
 
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("record");
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const title = "Medical Record Insight for Patients"
@@ -34,10 +36,10 @@ const Records = () => {
         } else {
             return (
                 <>
-                    <NavBar title={title}/>
+                    <NavBar title={title} authenticated={authenticated}/>
                     <Box
                         sx={{display: 'flex', justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-                        <RecordItem/>
+                        <RecordItem recordid={id}/>
                         <RecordFooter/>
                     </Box>
                 </>

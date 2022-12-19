@@ -8,10 +8,11 @@ import {useEffect, useState} from "react";
 import {checkSession} from "../util/sessionStorageChecker";
 import CircularLoader from "../components/CircularLoader/CircularLoader";
 import {Navigate} from "react-router-dom";
+import UserList from "../components/UserList/UserList";
 
 const MedicalBoard = () => {
 
-    const {fetchedData: records, isLoading, errMsg} = useFetch("http://localhost:8000/records");
+    const {fetchedData: users, isLoading, errMsg} = useFetch("http://localhost:3001/mypatients");
 
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -38,9 +39,9 @@ const MedicalBoard = () => {
         } else {
             return (
                 <>
-                    <NavBar title={"Patient Overview"}/>
+                    <NavBar title={"Patient Overview"} authenticated={authenticated}/>
                     <div className={"medicalboard-container"}>
-                        {records && <RecordList records={records}/>}
+                        {users && <UserList users={users}/>}
                         <div className={"medicalboard-content"}>
                             <RecordViewerPanel/>
                             <RecordItem/>
