@@ -2,6 +2,8 @@ const router = require('express').Router();
 const passport = require('passport');
 const genPassword = require('../lib/passwordUtils').genPassword;
 const connection = require('../config/database');
+const {isDoctor} = require("./authMiddleware");
+const path = require("path");
 const User = connection.models.User;
 const isAuth = require('./authMiddleware').isAuth;
 const isAdmin = require('./authMiddleware').isAdmin;
@@ -177,9 +179,38 @@ router.get("/users", isAdmin, async (req, res) => {
         return edited_user;
     });
     res.send((users));
-
-
 })
+
+router.get("/mypatients", isDoctor, async (req, res) => {
+    console.log(req.user);
+    let patients = await Doctor.find({doctor: req.user.toObject().fullname});
+    patients = patients.map(patient => {
+        let edited_patient = patient.toObject();
+        delete edited_patient.hash;
+        delete edited_patient.salt;
+        return edited_patient;
+    });
+    console.log(patients);
+    res.send((patients));
+})
+
+// Route to send md file from data/records folder to client
+router.get('/records/:record',async (req, res) => {
+
+    let record = req.params.record;
+    console.log(record)
+
+    res.sendFile(record,
+        {root: path.join(__dirname, '../data/records')},
+        function (err) {
+            if (err) {
+                console.log(err);
+                res.status(err.status).end();
+            }
+        }
+    );
+});
+
 
 /**
  * Lookup how to authenticate users on routes with Local Strategy
@@ -206,10 +237,13 @@ router.get('/login-success', (req, res) => {
     }
     console.log("> Key: " + key)
     console.log("> Login success");
+    console.log(req.user)
     res.status(200).json(
         {
             authKey: req.isAuthenticated(),
             accessKey: key,
+            user: req.user.toObject().username,
+            id: req.user.toObject().versicherungsnummer
         });
 
 });
