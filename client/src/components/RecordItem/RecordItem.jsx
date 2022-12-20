@@ -7,7 +7,7 @@ const RecordItem = ({recordid}) => {
     const [record, setRecord] = useState({md: ""});
 
     useEffect(() => {
-        fetch("http://localhost:3001/records/" + recordid)
+        fetch("http://localhost:3001/records/" +  encodeURIComponent(recordid))
             .then((res) => res.text())
             .then((md) => {
                 setRecord({ md })
