@@ -197,30 +197,12 @@ router.get("/mypatients", isDoctor, async (req, res) => {
 // Route to send md file from data/records folder to client
 router.get('/records/:record',async (req, res) => {
 
-    let record = req.params.record;
-
-    console.log(record)
-    if(record.toString().includes("record")) {
-        res.sendFile(record,
-            {root: path.join(__dirname, '../data/records')},
-            function (err) {
-                if (err) {
-                    console.log(err);
-                    res.status(err.status).end();
-                }
-            }
-        );
-    }
-
-    else {
-        let file = decodeURIComponent(req.params.record);
-        const count = (file.match(/\.\.\//g) || []).length;
-        let backsSteps = file.substring(0,3*count)
-        let filename = file.substring(3*count,file.length)
-        res.sendFile(filename,
-            {root: path.join(__dirname, backsSteps)})
-    }
-
+    let file = decodeURIComponent(req.params.record);
+    const count = (file.match(/\.\.\//g) || []).length;
+    let backsSteps = file.substring(0,3*count)
+    let filename = file.substring(3*count,file.length)
+    res.sendFile(filename,
+        {root: path.join(__dirname, backsSteps)})
 });
 
 /**
