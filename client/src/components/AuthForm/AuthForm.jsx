@@ -47,7 +47,7 @@ const AuthForm = ({title, type}) => {
                         } else if(user.accessKey === "patient") {
                             navigate({
                                 pathname: "/records",
-                                search: "?record=../data/records/record" + user.id + ".md",
+                                search: "?record=data/records/record" + user.id + ".md",
                             });
                         } else {
                             setError("User not found")

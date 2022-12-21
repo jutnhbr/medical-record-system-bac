@@ -202,7 +202,7 @@ router.get('/records/:record',async (req, res) => {
     let backsSteps = file.substring(0,3*count)
     let filename = file.substring(3*count,file.length)
     res.sendFile(filename,
-        {root: path.join(__dirname, backsSteps)})
+        {root: path.join(__dirname, "../"+backsSteps)})
 });
 
 /**
