@@ -17,7 +17,7 @@ We used passportJS to authenticate the user and based on the user object stored 
 4. Modify the URL from /data/records/recordXXXXXX to /data/logs/logs.txt
 5. Observe the used routes by other users and try out a few of them
 6. You notice that the admin always uses a /reauth route before actually accessing the /usrmgmt dashboard
-7. Navigate to the /reauth route and enter your own credetials
+7. Navigate to the /reauth route and enter your own credentials
 8. You now have access to the management dashboard. 
 9. You try to edit another user which is not working because you dont have any permissions
 10. You copy a foreign patient ID
@@ -27,7 +27,7 @@ We used passportJS to authenticate the user and based on the user object stored 
 # How to run this Application
 ### Run on a Virtual machine
 If you want to test and use this application on a virtual machine, follow our readme inside this repositry: https://github.com/mdvoryad/medical-record-system-bac-make-VM
-It provides a short tutorial and a Shell Script to automatically initilize and start the Application.
+It provides a short tutorial and a Shell Script to automatically initialize and start the Application.
 
 ### Run locally on the system
 
@@ -40,6 +40,6 @@ It provides a short tutorial and a Shell Script to automatically initilize and s
 7. Start the backend with ```npm run dev```
 8. Navigate to the Client Directory and install all dependecies with ```npm install```
 9. Start the Frontend with ```npm run start```
-10. The Frontend might ask you the start the application on port 3001 since 3000 is already in use. Accept with ```y```
+10. The Frontend might ask you to start the application on port 3001 since 3000 is already in use. Accept with ```y```
 11. The Application is now available on ```localhost:3001```
 12. You can find all Patient, Admin and Doctor logins inside the initDB.js Script
